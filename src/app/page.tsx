@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ExternalLink, Globe2, GraduationCap, Wallet } from "lucide-react";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
+import { PlannerHighlights } from "@/components/planner-highlights";
 import { StatCard } from "@/components/stat-card";
 import { getDossier } from "@/lib/dossier";
 
@@ -185,6 +186,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <PlannerHighlights countries={dossier.countries} programs={dossier.tracker} />
+
       <section className="grid gap-6 xl:grid-cols-2">
         <div className="rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_24px_55px_-35px_rgba(15,23,42,0.28)]">
           <div className="flex items-center gap-3">
@@ -221,6 +224,16 @@ export default function HomePage() {
           </div>
           <div className="mt-6 space-y-3">
             {[
+              {
+                title: "Control center",
+                note: "Edit degree target, document readiness, country focus, and planner backups.",
+                href: "/control",
+              },
+              {
+                title: "Application tracker",
+                note: "Run the shortlist through board and table views with saved local notes.",
+                href: "/tracker",
+              },
               {
                 title: "Programme explorer",
                 note: "Search and filter all mapped options by country, degree type, and fit.",

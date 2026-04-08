@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { startTransition, useDeferredValue, useState } from "react";
+import { usePlanner } from "@/components/planner-provider";
 import type { TrackerRow } from "@/lib/dossier";
+import {
+  PRIORITY_LEVELS,
+  TRACKER_STAGES,
+  type PriorityLevel,
+  type TrackerStage,
+  getProgramFallbackPlan,
+} from "@/lib/planner-state";
 
 type ProgramsExplorerProps = {
   programs: TrackerRow[];
@@ -28,6 +36,9 @@ export function ProgramsExplorer({ programs }: ProgramsExplorerProps) {
   const [degreeType, setDegreeType] = useState("all");
   const [fitLabel, setFitLabel] = useState("all");
   const [fundingFit, setFundingFit] = useState("all");
+  const [shortlistOnly, setShortlistOnly] = useState(false);
+
+  const { planner, updateProgramPlan } = usePlanner();
 
   const deferredQuery = useDeferredValue(query);
 
@@ -47,7 +58,12 @@ export function ProgramsExplorer({ programs }: ProgramsExplorerProps) {
   });
 
   const loweredQuery = deferredQuery.trim().toLowerCase();
-  const filteredPrograms = programs
+  const enrichedPrograms = programs.map((program) => ({
+    ...program,
+    ...(planner.programs[program.programKey] ?? getProgramFallbackPlan(program)),
+  }));
+
+  const filteredPrograms = enrichedPrograms
     .filter((program) => {
       const queryMatch =
         loweredQuery.length === 0 ||
@@ -60,8 +76,16 @@ export function ProgramsExplorer({ programs }: ProgramsExplorerProps) {
       const fitMatch = fitLabel === "all" || program.fitLabel === fitLabel;
       const fundingMatch =
         fundingFit === "all" || program.fundingFit === fundingFit;
+      const shortlistMatch = !shortlistOnly || program.shortlist;
 
-      return queryMatch && countryMatch && degreeMatch && fitMatch && fundingMatch;
+      return (
+        queryMatch &&
+        countryMatch &&
+        degreeMatch &&
+        fitMatch &&
+        fundingMatch &&
+        shortlistMatch
+      );
     })
     .sort((left, right) => {
       const fitScore =
@@ -174,6 +198,31 @@ export function ProgramsExplorer({ programs }: ProgramsExplorerProps) {
             </select>
           </label>
         </div>
+
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+          <p className="text-sm text-slate-500">
+            {filteredPrograms.length} programmes in view
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => setShortlistOnly((current) => !current)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                shortlistOnly
+                  ? "bg-teal-600 text-white"
+                  : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+              }`}
+            >
+              {shortlistOnly ? "Showing shortlisted" : "Shortlist only"}
+            </button>
+            <Link
+              href="/tracker"
+              className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700"
+            >
+              Open tracker workspace
+            </Link>
+          </div>
+        </div>
       </section>
 
       <section className="grid gap-4 xl:grid-cols-2">
@@ -207,13 +256,75 @@ export function ProgramsExplorer({ programs }: ProgramsExplorerProps) {
             </div>
 
             <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-              <p className="text-sm text-slate-500">{program.status}</p>
-              <Link
-                href={`/countries/${program.countrySlug}`}
-                className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700"
-              >
-                Open country
-              </Link>
+              <div className="space-y-2">
+                <p className="text-sm text-slate-500">{program.status}</p>
+                <div className="flex flex-wrap gap-2 text-xs font-medium">
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
+                    {program.stage}
+                  </span>
+                  <span className="rounded-full bg-rose-50 px-3 py-1 text-rose-700">
+                    {program.priority}
+                  </span>
+                  {program.shortlist ? (
+                    <span className="rounded-full bg-teal-50 px-3 py-1 text-teal-700">
+                      shortlisted
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+              <div className="flex flex-wrap justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    updateProgramPlan(program.programKey, {
+                      shortlist: !program.shortlist,
+                    })
+                  }
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                    program.shortlist
+                      ? "bg-teal-600 text-white"
+                      : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  {program.shortlist ? "Shortlisted" : "Shortlist"}
+                </button>
+                <select
+                  value={program.stage}
+                  onChange={(event) =>
+                    updateProgramPlan(program.programKey, {
+                      stage: event.target.value as TrackerStage,
+                    })
+                  }
+                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 outline-none transition focus:border-teal-500"
+                >
+                  {TRACKER_STAGES.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={program.priority}
+                  onChange={(event) =>
+                    updateProgramPlan(program.programKey, {
+                      priority: event.target.value as PriorityLevel,
+                    })
+                  }
+                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 outline-none transition focus:border-teal-500"
+                >
+                  {PRIORITY_LEVELS.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+                <Link
+                  href={`/countries/${program.countrySlug}`}
+                  className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700"
+                >
+                  Open country
+                </Link>
+              </div>
             </div>
           </article>
         ))}

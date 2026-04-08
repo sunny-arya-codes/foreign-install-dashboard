@@ -17,6 +17,8 @@ export type TrackerRow = {
   country: string;
   university: string;
   program: string;
+  programSlug: string;
+  programKey: string;
   degreeType: string;
   fitLabel: string;
   fundingFit: string;
@@ -249,11 +251,14 @@ function parseTracker() {
   return dataRows.map((row) => {
     const country = row[headerIndex.country];
     const university = row[headerIndex.university];
+    const program = row[headerIndex.program];
 
     return {
       country,
       university,
-      program: row[headerIndex.program],
+      program,
+      programSlug: slugify(program),
+      programKey: [country, university, program].map(slugify).join("__"),
       degreeType: row[headerIndex.degree_type],
       fitLabel: row[headerIndex.fit_label],
       fundingFit: row[headerIndex.funding_fit],

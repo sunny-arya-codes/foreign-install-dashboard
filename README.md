@@ -16,8 +16,10 @@ Official reference used for the latest Next.js baseline:
 ## What this app does
 
 - maps the full dossier into a dashboard
+- adds a browser-persisted control center for degree target, readiness, and country focus
+- adds a kanban + table tracker for shortlist, stages, deadlines, and notes
 - shows country-level priority and programme density
-- gives a filterable programme explorer
+- gives a filterable programme explorer with quick shortlist controls
 - groups scholarships by country
 - exposes common documents and planning docs in a readable UI
 - keeps a self-contained content snapshot inside the app repo
@@ -32,6 +34,8 @@ Official reference used for the latest Next.js baseline:
 ## Main routes
 
 - `/` — overview dashboard
+- `/control` — editable planning layer stored in browser local storage
+- `/tracker` — application tracker board and table
 - `/countries` — country grid
 - `/countries/[slug]` — country detail with universities and programme cards
 - `/programs` — filterable programme explorer
@@ -52,6 +56,14 @@ Then open [http://localhost:3000](http://localhost:3000).
 ```bash
 pnpm lint
 pnpm build
+```
+
+## Deployment
+
+Deploy to Vercel from the project root:
+
+```bash
+vercel deploy -y
 ```
 
 ## Source lineage

@@ -16,7 +16,8 @@ export default function ProgramsPage() {
         <p className="mt-4 max-w-3xl text-base leading-8 text-slate-500">
           Search across the mapped options and narrow the shortlist by country,
           degree type, and fit label. This view is designed to cut through the
-          raw markdown folder structure and surface decisions quickly.
+          raw markdown folder structure, while also letting you mark shortlist,
+          stage, and priority inline.
         </p>
       </section>
 
