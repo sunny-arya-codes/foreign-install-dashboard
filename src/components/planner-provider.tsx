@@ -29,6 +29,10 @@ type PlannerContextValue = {
 
 const PlannerContext = createContext<PlannerContextValue | null>(null);
 const PLANNER_EVENT = "planner-storage";
+const DEFAULT_PLANNER_STATE = getDefaultPlannerState();
+
+let cachedRawSnapshot: string | null = null;
+let cachedPlannerSnapshot: PlannerState = DEFAULT_PLANNER_STATE;
 
 function withTimestamp<T extends object>(value: T) {
   return {
@@ -39,17 +43,32 @@ function withTimestamp<T extends object>(value: T) {
 
 function readPlannerSnapshot() {
   if (typeof window === "undefined") {
-    return getDefaultPlannerState();
+    return cachedPlannerSnapshot;
   }
 
-  const existing = window.localStorage.getItem(PLANNER_STORAGE_KEY);
-  if (!existing) return getDefaultPlannerState();
-
   try {
-    return normalizePlannerState(JSON.parse(existing));
+    const existing = window.localStorage.getItem(PLANNER_STORAGE_KEY);
+
+    if (!existing) {
+      cachedRawSnapshot = null;
+      cachedPlannerSnapshot = DEFAULT_PLANNER_STATE;
+      return cachedPlannerSnapshot;
+    }
+
+    if (existing === cachedRawSnapshot) {
+      return cachedPlannerSnapshot;
+    }
+
+    cachedRawSnapshot = existing;
+    cachedPlannerSnapshot = normalizePlannerState(JSON.parse(existing));
+    return cachedPlannerSnapshot;
   } catch {
-    window.localStorage.removeItem(PLANNER_STORAGE_KEY);
-    return getDefaultPlannerState();
+    cachedRawSnapshot = null;
+    cachedPlannerSnapshot = DEFAULT_PLANNER_STATE;
+    try {
+      window.localStorage.removeItem(PLANNER_STORAGE_KEY);
+    } catch {}
+    return cachedPlannerSnapshot;
   }
 }
 
@@ -69,7 +88,17 @@ function subscribe(callback: () => void) {
 }
 
 function persistPlannerState(value: PlannerState) {
-  window.localStorage.setItem(PLANNER_STORAGE_KEY, JSON.stringify(value));
+  cachedPlannerSnapshot = value;
+  cachedRawSnapshot = JSON.stringify(value);
+
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(PLANNER_STORAGE_KEY, cachedRawSnapshot);
+  } catch {}
+
   window.dispatchEvent(new Event(PLANNER_EVENT));
 }
 
@@ -81,7 +110,7 @@ export function PlannerProvider({
   const planner = useSyncExternalStore(
     subscribe,
     readPlannerSnapshot,
-    getDefaultPlannerState,
+    () => DEFAULT_PLANNER_STATE,
   );
   const hydrated = true;
 
@@ -140,7 +169,7 @@ export function PlannerProvider({
     exportPlannerState: () => JSON.stringify(planner, null, 2),
     resetPlannerState: () => {
       startTransition(() => {
-        persistPlannerState(getDefaultPlannerState());
+        persistPlannerState(DEFAULT_PLANNER_STATE);
       });
     },
   };
