@@ -1,0 +1,35 @@
+country,university,program,degree_type,fit_label,funding_fit,status
+Germany,Saarland University,MSc Data Science and Artificial Intelligence,Masters,High,Strong,research-done / verify active cycle before applying
+Germany,Freie Universitat Berlin,MSc Data Science,Masters,Medium,Strong,research-done / verify active cycle before applying
+Germany,FAU Erlangen-Nurnberg,MSc Data Science,Masters,Medium,Strong,research-done / verify active cycle before applying
+Finland,University of Helsinki,Master’s Programme in Data Science,Masters,Medium,Medium,research-done / verify active cycle before applying
+Finland,Aalto University,"MSc (Tech) major in Machine Learning, Data Science and Artificial Intelligence",Masters,Stretch,Medium,research-done / verify active cycle before applying
+Finland,Tampere University,Data Science in the Master’s Programme in Computing Sciences and Electrical Engineering,Masters,Medium,Medium,research-done / verify active cycle before applying
+Norway,University of Bergen,Master’s in Statistics and Data Science,Masters,Medium,Weak,research-done / verify active cycle before applying
+Norway,University of Stavanger,MSc Computer Science,Masters,Medium,Weak,research-done / verify active cycle before applying
+Taiwan,National Taiwan University,Master’s in Data Science Degree Program,Masters,High,Strong,research-done / verify active cycle before applying
+Taiwan,National Taiwan University,MS in Computer Science and Information Engineering,Masters,High,Strong,research-done / verify active cycle before applying
+Taiwan,National Yang Ming Chiao Tung University,Master’s options under the College of Artificial Intelligence,Masters,High,Strong,research-done / verify active cycle before applying
+Singapore,National University of Singapore,MSc in Data Science and Machine Learning,Masters,Stretch,Medium,research-done / verify active cycle before applying
+Singapore,National University of Singapore,MSc in Business Analytics,Masters,Medium,Medium,research-done / verify active cycle before applying
+Singapore,Nanyang Technological University,MSc in Artificial Intelligence,Masters,Medium,Medium,research-done / verify active cycle before applying
+Singapore,Nanyang Technological University,MSc in Enterprise Artificial Intelligence,Masters,Medium,Medium,research-done / verify active cycle before applying
+Singapore,Singapore University of Technology and Design,MEng (Research) Fellowship route,Research Masters,High,Strong,research-done / verify active cycle before applying
+Singapore,Singapore University of Technology and Design,PhD with President’s Graduate Fellowship / SUTD PhD Fellowship,PhD,Medium,Strong,research-done / verify active cycle before applying
+South Korea,KAIST,Graduate School of Data Science (MS / PhD),Masters / PhD,High,Strong,research-done / verify active cycle before applying
+South Korea,UNIST,International Graduate admissions in AI / CS related areas,Masters / PhD,Medium,Strong,research-done / verify active cycle before applying
+South Korea,POSTECH,Graduate AI / data-related MS and PhD tracks,Masters / PhD,Medium,Strong,research-done / verify active cycle before applying
+UK,University of Southampton,MSc Data Science,Masters,Medium,Medium,research-done / verify active cycle before applying
+UK,University of Southampton,MSc Data and Decision Analytics,Masters,Medium,Medium,research-done / verify active cycle before applying
+UK,University of Sheffield,MSc Data Science,Masters,Medium,Medium,research-done / verify active cycle before applying
+US,University of Maine,MS in Data Science and Engineering,Masters,Medium,Medium,research-done / verify active cycle before applying
+US,UMBC,MPS in Data Science,Masters,Borderline,Weak,research-done / verify active cycle before applying
+US,Boston University,PhD in Data Science,PhD,Stretch,Medium,research-done / verify active cycle before applying
+Australia,Adelaide University,Master of Data Science,Masters,Medium,Medium,research-done / verify active cycle before applying
+Australia,Adelaide University,Master of Research / AI research scholarship route,Research Masters,Medium,Medium,research-done / verify active cycle before applying
+Australia,University of Queensland,Master of Data Science,Masters,Medium,Medium,research-done / verify active cycle before applying
+New Zealand,University of Auckland,Master of Data Science,Masters,High,Strong for PhD / Medium for Masters,research-done / verify active cycle before applying
+New Zealand,University of Auckland,PhD in Computer Science / Data Science-aligned research,PhD,High,Strong for PhD / Medium for Masters,research-done / verify active cycle before applying
+New Zealand,Victoria University of Wellington,Master’s and PhD study through the Centre for Data Science and Artificial Intelligence,Masters / PhD,Medium,Strong for PhD / Medium for Masters,research-done / verify active cycle before applying
+New Zealand,University of Waikato,Master of Data Science,Masters,High,Medium,research-done / verify active cycle before applying
+New Zealand,University of Waikato,PhD / doctoral path,PhD,Medium,Medium,research-done / verify active cycle before applying

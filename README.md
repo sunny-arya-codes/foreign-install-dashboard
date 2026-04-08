@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Abroad Study Dashboard
 
-## Getting Started
+Minimal professional dashboard built from the original abroad-study dossier and converted into a structured web app.
 
-First, run the development server:
+## Stack
+
+- `Next.js 16.2.2`
+- `React 19.2.4`
+- `Tailwind CSS v4`
+- App Router
+
+Official reference used for the latest Next.js baseline:
+- [Next.js blog](https://nextjs.org/blog)
+- [Next.js App Router docs](https://nextjs.org/docs/app/getting-started/installation)
+
+## What this app does
+
+- maps the full dossier into a dashboard
+- shows country-level priority and programme density
+- gives a filterable programme explorer
+- groups scholarships by country
+- exposes common documents and planning docs in a readable UI
+- keeps a self-contained content snapshot inside the app repo
+
+## Project structure
+
+- `content/dossier/` — embedded snapshot of the original markdown/csv dossier
+- `src/lib/dossier.ts` — parser and typed data layer
+- `src/app/` — App Router routes
+- `src/components/` — dashboard UI components
+
+## Main routes
+
+- `/` — overview dashboard
+- `/countries` — country grid
+- `/countries/[slug]` — country detail with universities and programme cards
+- `/programs` — filterable programme explorer
+- `/scholarships` — funding board
+- `/documents` — common-documents and planning-docs hub
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verification
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm lint
+pnpm build
+```
 
-## Learn More
+## Source lineage
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Original dossier repo:
+- [sunny-arya-codes/foreign-install](https://github.com/sunny-arya-codes/foreign-install)
